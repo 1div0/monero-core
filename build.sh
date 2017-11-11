@@ -17,10 +17,10 @@ elif [ "$BUILD_TYPE" == "release-static" ]; then
     if [ "$platform" != "darwin" ]; then
 	    CONFIG="CONFIG+=release static";
     else
-        # OS X: build static libwallet but dynamic Qt. 
+        # OS X: build static libwallet but dynamic Qt.
         echo "OS X: Building Qt project without static flag"
         CONFIG="CONFIG+=release";
-    fi    
+    fi
     BIN_PATH=release/bin
 elif [ "$BUILD_TYPE" == "release-android" ]; then
     echo "Building release for ANDROID"
@@ -55,7 +55,7 @@ fi
 
 # build libwallet
 ./get_libwallet_api.sh $BUILD_TYPE
- 
+
 # build zxcvbn
 $MAKE -C src/zxcvbn-c || exit
 
@@ -85,8 +85,8 @@ popd
 echo "var GUI_MONERO_VERSION = \"$TAGNAME\"" >> version.js
 
 cd build
-qmake ../monero-wallet-gui.pro "$CONFIG" || exit
-$MAKE || exit 
+qmake-qt5 ../monero-wallet-gui.pro "$CONFIG" || exit
+$MAKE || exit
 
 # Copy monerod to bin folder
 if [ "$platform" != "mingw32" ] && [ "$ANDROID" != true ]; then
@@ -95,4 +95,3 @@ fi
 
 # make deploy
 popd
-
